@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, View, Button, StyleSheet } from 'react-native';
+import { GoalView } from './components/GoalView';
+
+const state = {
+  goals: [],
+};
+
 
 export default function App() {
+  const [addMode, setAddMode] = useState(false);
+
+
+  const onButtonPress = (textInput, setTextInput) => {
+    if (textInput.length > 0) {
+      const newState = { goals: [...myState.goals, { key: Math.random().toString(), value: textInput }] };
+      setMyState(newState);
+      setTextInput("");
+    }
+  };
+
+  const removeElement = (key) => {
+    const newGoals = myState.goals.filter(el => el.key !== key);
+    setMyState({ ...myState, goals: newGoals });
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={[styles.root]}>
+      <Button title="Add Goals" onPress={() => setAddMode(!addMode)} />
+      <GoalView visible={addMode} setVisible={setAddMode} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    marginTop: 40,
+  }
 });
+
+
